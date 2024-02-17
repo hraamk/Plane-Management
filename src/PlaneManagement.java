@@ -9,7 +9,7 @@ public class PlaneManagement {
         try {
             if (row[seatIndex] == 0) {
                 row[seatIndex] = 1;
-                System.out.println("Seat  " + rowName + seat + "  booked successfully.");
+                System.out.println("Seat  " + rowName + seat + " booked successfully.");
             }
             else {
                 System.out.println("Seat  " + rowName + seat + "  is not available.");
@@ -61,6 +61,7 @@ public class PlaneManagement {
                 break;
             case "D":
                 bookTicket(rowD,seatRow,seatNumber);
+                break;
             default:
                 System.out.println("Invalid Seat Row");
                 break;
@@ -90,6 +91,7 @@ public class PlaneManagement {
                 break;
             case "D":
                 cancelTicket(rowD,seatRow,seatNumber);
+                break;
             default:
                 System.out.println("Invalid Seat Row");
                 break;
@@ -231,6 +233,5 @@ public class PlaneManagement {
         }
 
     }
-
 
 }
