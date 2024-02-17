@@ -1,4 +1,6 @@
 import java.util.Scanner;  // Import the Scanner class
+import java.util.Arrays;
+
 
 public class PlaneManagement {
 
@@ -128,21 +130,62 @@ public class PlaneManagement {
 
         }
     }
-    public static void find_seat(int[] row){
-        for (int i : row) {
-            if (row[i] == 0){
-                System.out.println("First available seat is : "+ "A" + i+1);
-                break;
+
+
+   public static void find_first_available(int[] rowA, int[] rowB, int[] rowC, int[] rowD){
+        int[][] array = {rowA,rowB,rowC,rowD};
+
+        String rowName;
+
+        rowLoop:
+        for (int i=0; i < array.length; i++ ) {
+            for (int j=0; j < array[i].length; j++) {
+                if (array[i][j] == 0) {
+                    if(Arrays.equals(array[i], rowA)){
+                        rowName = "A";
+                    }
+                    else if (Arrays.equals(array[i], rowB)) {
+                        rowName = "B";
+                    }
+                    else if (Arrays.equals(array[i], rowC)) {
+                        rowName = "C";
+                    }
+                    else {
+                        rowName = "D";
+                    }
+                    int seatName = j + 1;  // Seat number is the column index + 1
+                    System.out.println("First available seat is : " + rowName + seatName);
+                    break rowLoop;
+
+                }
             }
+            System.out.println();  // Move to the next line after each row
         }
+
+
 
     }
 
+    public static void show_seating_plan(int[] rowA, int[] rowB, int[] rowC, int[] rowD){
+        int[][] array = {rowA,rowB,rowC,rowD};
 
-   /* public static void find_first_available(int[] rowA, int[] rowB, int[] rowC, int[] rowD){
+        for (int[] row : array) {
+            for (int seat : row) {
+                if (seat == 0) {
+                    System.out.print("O");
+                    System.out.print(" ");
+
+                } else {
+                    System.out.print("X");
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();  // Move to the next line after each row
+        }
 
 
-    }*/
+
+    }
 
 
     public static void main(String[] args){
@@ -175,7 +218,11 @@ public class PlaneManagement {
             }
 
             else if(userInput==3){
-                //find_first_available(rowA,rowB,rowC,rowD);
+                find_first_available(rowA,rowB,rowC,rowD);
+            }
+
+            else if(userInput==4){
+                show_seating_plan(rowA,rowB,rowC,rowD);
             }
 
             else{
@@ -183,32 +230,6 @@ public class PlaneManagement {
             }
         }
 
-/*
-        for (int i = 0; i < rowA.length; i++) {
-           System.out.print(rowA[i] + " ");
-
-        }
-        System.out.println();
-
-        for (int i = 0; i < rowB.length; i++) {
-            System.out.print(rowB[i] + " ");
-
-
-        }
-        System.out.println();
-        for (int i = 0; i < rowC.length; i++) {
-            System.out.print(rowC[i] + " ");
-
-
-        }
-        System.out.println();
-        for (int i = 0; i < rowD.length; i++) {
-            System.out.print(rowD[i] + " ");
-
-
-        }
-        System.out.println();
-*/
     }
 
 
