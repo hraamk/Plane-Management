@@ -17,7 +17,6 @@ public class PlaneManagement {
         }
         catch(Exception e){
             System.out.println("Invalid seat number");
-
         }
 
     }
@@ -30,7 +29,7 @@ public class PlaneManagement {
                 System.out.println("Seat  " + rowName + seat + "  canceled successfully.");
             }
             else {
-                System.out.println("Seat  " + rowName + seat + "  does does not have any booking.");
+                System.out.println("Seat  " + rowName + seat + " does not have any booking.");
             }
         }
         catch(Exception e){
@@ -46,7 +45,7 @@ public class PlaneManagement {
         System.out.println("Please input row letter :");
         String seatRow = seatInput.nextLine();
 
-        System.out.println("Please input row number :");
+        System.out.println("Please input seat number :");
         int seatNumber = seatInput.nextInt();
 
         switch(seatRow.toUpperCase()){
@@ -75,7 +74,7 @@ public class PlaneManagement {
         System.out.println("Please input row letter :");
         String seatRow = seatInput.nextLine();
 
-        System.out.println("Please input row number :");
+        System.out.println("Please input seat number :");
         int seatNumber = seatInput.nextInt();
 
         switch(seatRow.toUpperCase()){
@@ -202,22 +201,23 @@ public class PlaneManagement {
         int userInput;
 
         while(true){
+            // Displays menu
             displayMenu();
             System.out.println("\nPlease select an option :");
             userInput = menuInput.nextInt();
 
-            if (userInput==0){
+            if (userInput==0){  // Closing
                 break;
             }
 
-            else if(userInput==1){
+            else if(userInput==1){  // Buying seat
                 buy_seat(rowA,rowB,rowC,rowD);
             }
-            else if(userInput==2){
+            else if(userInput==2){  // Cancel seat
                 cancel_seat(rowA,rowB,rowC,rowD);
             }
 
-            else if(userInput==3){
+            else if(userInput==3){  // Finding first seat
                 find_first_available(rowA,rowB,rowC,rowD);
             }
 
