@@ -1,11 +1,11 @@
 public class Ticket {
     private String row;
     private int seat;
-    private double price;
+    private int price;
     private Person person;
 
     // Constructor
-    public Ticket(String row, int seat, double price, Person person) {
+    public Ticket(String row, int seat, int price, Person person) {
         this.row = row;
         this.seat = seat;
         this.price = price;
@@ -29,11 +29,11 @@ public class Ticket {
         this.seat = seat;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -4,9 +4,10 @@ import java.util.Arrays;
 
 public class PlaneManagement {
 
-    private static Ticket[] ticket = new Ticket[52];
+    private static final Ticket[] ticket = new Ticket[52];
+    private static int totalSales = 0;
 
-    public static void bookTicket(int[] row,String rowName, int seat){
+    public static void book_ticket(int[] row,String rowName, int seat){
         int seatIndex = seat - 1;
         try {
             if (row[seatIndex] == 0) {
@@ -20,7 +21,9 @@ public class PlaneManagement {
                 System.out.println("Enter Buyer Email :");
                 String email = personInfo.nextLine();
 
-                Person temp = new Person(name,surname,email);
+                Person newPerson = new Person(name,surname,email);
+
+                personInfo.close();
 
                 int price;
 
@@ -33,11 +36,11 @@ public class PlaneManagement {
                 else{
                     price = 180;
                 }
-                Ticket tick1 = new Ticket(rowName,seat,price,temp);
+                Ticket newTicket = new Ticket(rowName,seat,price,newPerson);
                 for (int i=0; i < ticket.length; i++ ) {
-
                     if (ticket[i] == null){
-                        ticket[i] = tick1;
+                        ticket[i] = newTicket;
+                        break;
                     }
                 }
                 System.out.println("Seat  " + rowName + seat + " booked successfully.");
@@ -45,6 +48,7 @@ public class PlaneManagement {
             else {
                 System.out.println("Seat  " + rowName + seat + "  is not available.");
             }
+
         }
         catch(Exception e){
             System.out.println("Invalid seat number");
@@ -52,16 +56,18 @@ public class PlaneManagement {
 
     }
 
-    public static void cancelTicket(int[] row,String rowName,int seat){
+    public static void cancel_ticket(int[] row,String rowName,int seat){
         int seatIndex = seat - 1;
         try {
             if (row[seatIndex] == 1) {
                 row[seatIndex] = 0;
                 System.out.println("Seat  " + rowName + seat + "  canceled successfully.");
                 for (int i=0; i < ticket.length; i++ ) {
-
-                    if ((ticket[i].getRow().equals(rowName))&&(ticket[i].getSeat() == seat)){
-                        ticket[i] = null;
+                    if (ticket[i] != null){
+                        if ((ticket[i].getRow().equals(rowName))&&(ticket[i].getSeat() == seat)){
+                            ticket[i] = null;
+                            break;
+                        }
                     }
                 }
             }
@@ -76,7 +82,6 @@ public class PlaneManagement {
 
     }
 
-
     public static void buy_seat(int[] rowA, int[] rowB, int[] rowC, int[] rowD) {
         Scanner seatInput = new Scanner(System.in);
         System.out.println("Please input row letter :");
@@ -88,22 +93,27 @@ public class PlaneManagement {
         switch(seatRow.toUpperCase()){
 
             case "A":
-                bookTicket(rowA,seatRow,seatNumber);
+                book_ticket(rowA,seatRow,seatNumber);
                 break;
             case "B":
-                bookTicket(rowB,seatRow,seatNumber);
+                book_ticket(rowB,seatRow,seatNumber);
                 break;
             case "C":
-                bookTicket(rowC,seatRow,seatNumber);
+                book_ticket(rowC,seatRow,seatNumber);
                 break;
             case "D":
-                bookTicket(rowD,seatRow,seatNumber);
+                book_ticket(rowD,seatRow,seatNumber);
                 break;
             default:
                 System.out.println("Invalid Seat Row");
                 break;
 
+
+
+
         }
+
+        seatInput.close();
 
     }
 
@@ -118,22 +128,24 @@ public class PlaneManagement {
         switch(seatRow.toUpperCase()){
 
             case "A":
-                cancelTicket(rowA,seatRow,seatNumber);
+                cancel_ticket(rowA,seatRow,seatNumber);
                 break;
             case "B":
-                cancelTicket(rowB,seatRow,seatNumber);
+                cancel_ticket(rowB,seatRow,seatNumber);
                 break;
             case "C":
-                cancelTicket(rowC,seatRow,seatNumber);
+                cancel_ticket(rowC,seatRow,seatNumber);
                 break;
             case "D":
-                cancelTicket(rowD,seatRow,seatNumber);
+                cancel_ticket(rowD,seatRow,seatNumber);
                 break;
             default:
                 System.out.println("Invalid Seat Row");
                 break;
 
         }
+
+        seatInput.close();
 
     }
 
@@ -175,19 +187,16 @@ public class PlaneManagement {
         String rowName;
 
         rowLoop:
-        for (int i=0; i < array.length; i++ ) {
-            for (int j=0; j < array[i].length; j++) {
-                if (array[i][j] == 0) {
-                    if(Arrays.equals(array[i], rowA)){
+        for (int[] ints : array) {
+            for (int j = 0; j < ints.length; j++) {
+                if (ints[j] == 0) {
+                    if (Arrays.equals(ints, rowA)) {
                         rowName = "A";
-                    }
-                    else if (Arrays.equals(array[i], rowB)) {
+                    } else if (Arrays.equals(ints, rowB)) {
                         rowName = "B";
-                    }
-                    else if (Arrays.equals(array[i], rowC)) {
+                    } else if (Arrays.equals(ints, rowC)) {
                         rowName = "C";
-                    }
-                    else {
+                    } else {
                         rowName = "D";
                     }
                     int seatName = j + 1;  // Seat number is the column index + 1
@@ -217,10 +226,48 @@ public class PlaneManagement {
             System.out.println();  // Move to the next line after each row
         }
 
-
-
     }
 
+    public static void print_tickets_info(){
+        for(int i=0; i<ticket.length;i++){
+            if(ticket[i] != null){
+                ticket[i].printInfo();
+                System.out.println();
+
+                totalSales = totalSales+ ticket[i].getPrice();
+            }
+
+        }
+        System.out.println("Total sales for the session is : " + totalSales);
+    }
+
+    public static void search_ticket(){
+        Scanner seatInput = new Scanner(System.in);
+        System.out.println("Please input row letter :");
+        String seatRow = seatInput.nextLine();
+
+        System.out.println("Please input seat number :");
+        int seatNumber = seatInput.nextInt();
+
+        boolean loopCompleted = true;
+
+        for (int i=0; i < ticket.length; i++ ) {
+            if (ticket[i] != null){
+                if ((ticket[i].getRow().equals(seatRow))&&(ticket[i].getSeat() == seatNumber)){
+                    ticket[i].printInfo();
+                    System.out.println();
+                    loopCompleted = false;
+                    break;
+                }
+            }
+        }
+
+        seatInput.close();
+
+        if(loopCompleted){
+            System.out.println("This seat is available");
+        }
+    }
 
     public static void main(String[] args){
         // Initializing seats
@@ -262,36 +309,20 @@ public class PlaneManagement {
                     show_seating_plan(rowA,rowB,rowC,rowD);
                     break;
 
+                case 5:
+                    print_tickets_info();
+                    break;
+
+                case 6:
+                    search_ticket();
+                    break;
+
                 default:
                     System.out.println("Invalid Input");
 
             }
+            menuInput.close();
 
-/*
-            if (userInput==0){  // Closing
-                break;
-            }
-
-            else if(userInput==1){  // Buying seat
-                buy_seat(rowA,rowB,rowC,rowD);
-            }
-            else if(userInput==2){  // Cancel seat
-                cancel_seat(rowA,rowB,rowC,rowD);
-            }
-
-            else if(userInput==3){  // Finding first seat
-                find_first_available(rowA,rowB,rowC,rowD);
-            }
-
-            else if(userInput==4){
-                show_seating_plan(rowA,rowB,rowC,rowD);
-            }
-
-            else{
-                System.out.println("Invalid Input");
-            }
-
- */
         }
 
     }
