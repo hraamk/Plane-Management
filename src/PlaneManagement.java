@@ -287,7 +287,6 @@ public class PlaneManagement {
         while(true){
             // Displays menu
             displayMenu();
-            innerLoop:
             while (true){
                 try{
                     System.out.println("\nPlease select an option :");
