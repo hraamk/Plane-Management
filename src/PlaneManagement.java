@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;  // Import the Scanner class
 import java.util.Arrays;
 
@@ -7,7 +8,7 @@ public class PlaneManagement {
     private static final Ticket[] ticket = new Ticket[52];
     private static int totalSales = 0;
 
-    public static void book_ticket(int[] row,String rowName, int seat){
+    public static void bookTicket(int[] row,String rowName, int seat){
         int seatIndex = seat - 1;
         try {
             if (row[seatIndex] == 0) {
@@ -23,7 +24,7 @@ public class PlaneManagement {
 
                 Person newPerson = new Person(name,surname,email);
 
-                personInfo.close();
+                //personInfo.close();
 
                 int price;
 
@@ -50,13 +51,13 @@ public class PlaneManagement {
             }
 
         }
-        catch(Exception e){
+        catch(ArrayIndexOutOfBoundsException e){
             System.out.println("Invalid seat number");
         }
 
     }
 
-    public static void cancel_ticket(int[] row,String rowName,int seat){
+    public static void cancelTicket(int[] row,String rowName,int seat){
         int seatIndex = seat - 1;
         try {
             if (row[seatIndex] == 1) {
@@ -75,7 +76,7 @@ public class PlaneManagement {
                 System.out.println("Seat  " + rowName + seat + " does not have any booking.");
             }
         }
-        catch(Exception e){
+        catch(ArrayIndexOutOfBoundsException e){
             System.out.println("Invalid seat number");
 
         }
@@ -93,16 +94,16 @@ public class PlaneManagement {
         switch(seatRow.toUpperCase()){
 
             case "A":
-                book_ticket(rowA,seatRow,seatNumber);
+                bookTicket(rowA,seatRow,seatNumber);
                 break;
             case "B":
-                book_ticket(rowB,seatRow,seatNumber);
+                bookTicket(rowB,seatRow,seatNumber);
                 break;
             case "C":
-                book_ticket(rowC,seatRow,seatNumber);
+                bookTicket(rowC,seatRow,seatNumber);
                 break;
             case "D":
-                book_ticket(rowD,seatRow,seatNumber);
+                bookTicket(rowD,seatRow,seatNumber);
                 break;
             default:
                 System.out.println("Invalid Seat Row");
@@ -113,7 +114,7 @@ public class PlaneManagement {
 
         }
 
-        seatInput.close();
+        //seatInput.close();
 
     }
 
@@ -128,16 +129,16 @@ public class PlaneManagement {
         switch(seatRow.toUpperCase()){
 
             case "A":
-                cancel_ticket(rowA,seatRow,seatNumber);
+                cancelTicket(rowA,seatRow,seatNumber);
                 break;
             case "B":
-                cancel_ticket(rowB,seatRow,seatNumber);
+                cancelTicket(rowB,seatRow,seatNumber);
                 break;
             case "C":
-                cancel_ticket(rowC,seatRow,seatNumber);
+                cancelTicket(rowC,seatRow,seatNumber);
                 break;
             case "D":
-                cancel_ticket(rowD,seatRow,seatNumber);
+                cancelTicket(rowD,seatRow,seatNumber);
                 break;
             default:
                 System.out.println("Invalid Seat Row");
@@ -145,7 +146,7 @@ public class PlaneManagement {
 
         }
 
-        seatInput.close();
+        //seatInput.close();
 
     }
 
@@ -262,7 +263,7 @@ public class PlaneManagement {
             }
         }
 
-        seatInput.close();
+        //seatInput.close();
 
         if(loopCompleted){
             System.out.println("This seat is available");
@@ -286,8 +287,18 @@ public class PlaneManagement {
         while(true){
             // Displays menu
             displayMenu();
-            System.out.println("\nPlease select an option :");
-            userInput = menuInput.nextInt();
+            innerLoop:
+            while (true){
+                try{
+                    System.out.println("\nPlease select an option :");
+                    userInput = menuInput.nextInt();
+                    break;
+                }
+                catch (InputMismatchException e) {
+                    menuInput.next();
+                    System.out.println("Please enter a value between 0-6");
+                }
+            }
 
             switch (userInput){
                 case 0:
@@ -321,7 +332,7 @@ public class PlaneManagement {
                     System.out.println("Invalid Input");
 
             }
-            menuInput.close();
+
 
         }
 
