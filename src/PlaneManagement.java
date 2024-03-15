@@ -71,6 +71,7 @@ public class PlaneManagement {
                         break;
                     }
                 }
+                newTicket.save();
                 System.out.println("Seat  " + rowName + seat + " booked successfully.");
             }
             else {
