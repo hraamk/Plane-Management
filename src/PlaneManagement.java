@@ -9,29 +9,39 @@ public class PlaneManagement {
     private static int totalSales = 0;
     private static Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Validates row
+     * This method will get seat row and validates its type
+     * @return The seat row
+     */
     public static String getSeatRow(){
-        while(true) {
+        while(true) { // Loops until it gets a valid input
             try {
-                System.out.println("Please input row letter :");
-                return scanner.nextLine();
+                System.out.println("Please input row letter :");  // Gets seat row input
+                return scanner.nextLine().toUpperCase();  // Returns seat Row in upper case
 
-            } catch (Exception e) {
+            } catch (InputMismatchException e) { // Handles InputMismatch error thrown during input
                 scanner.next();
                 System.out.println("Please select a letter between A-D");
             }
         }
     }
 
+    /**
+     * Validates seat
+     * This method will get seat number and validates its type
+     * @return The seat number
+     */
     public static int getSeatNumber(){
-        while(true) {
+        while(true) {  // Loops until it gets a valid input
             try {
                 System.out.println("Please input seat number :");
-                int seat = scanner.nextInt();
-                scanner.nextLine();
+                int seat = scanner.nextInt();  // Gets seat number input
+                scanner.nextLine(); // Clears scanner
                 return seat;
 
 
-            } catch (InputMismatchException e) {
+            } catch (InputMismatchException e) {  // Handles InputMismatch error thrown during input
                 scanner.next();
                 System.out.println("Please select a valid seat number");
             }
@@ -39,60 +49,82 @@ public class PlaneManagement {
 
     }
 
+    /**
+     * Books Ticket
+     *This function will book the seat after getting inputs from buys_seat method.
+     * @param row The array of the Row
+     * @param rowName The name of the Row
+     * @param seat  The seat number
+     */
     public static void bookTicket(int[] row,String rowName, int seat){
-        int seatIndex = seat - 1;
+        int seatIndex = seat - 1;  // Arrays's index is always one less than seat number
         try {
-            if (row[seatIndex] == 0) {
-                row[seatIndex] = 1;
+            if (row[seatIndex] == 0) {  // Checks whether the seat is available
+                row[seatIndex] = 1;  // Books seat
 
                 System.out.println("Enter Buyer Name :");
-                String name = scanner.nextLine();
+                String name = scanner.nextLine();  // Gets buyer's name
                 System.out.println("Enter Buyer Surname :");
-                String surname = scanner.nextLine();
+                String surname = scanner.nextLine();  // Gets buyer's surname
                 System.out.println("Enter Buyer Email :");
-                String email = scanner.nextLine();
+                String email = scanner.nextLine();  // Gets buyer's email
 
+                // Creates an object in Person class with inputted details
                 Person newPerson = new Person(name,surname,email);
-                int price;
 
-                if(seat<6){
+                // Setting price for each ticket categories
+                int price;
+                if(seat<6){  // Seat 1-5
                     price = 200;
                 }
-                else if(seat <10){
+                else if(seat <10){  // Seat 6-9
                     price = 150;
                 }
-                else{
+                else{ // Seat 10-12/14
                     price = 180;
                 }
+
+                // Creates a new ticket in Ticket class with inputted ticket details and person object.
                 Ticket newTicket = new Ticket(rowName,seat,price,newPerson);
                 for (int i=0; i < ticket.length; i++ ) {
-                    if (ticket[i] == null){
-                        ticket[i] = newTicket;
+
+                    if (ticket[i] == null){  // Finds the first null object in array of objects
+                        ticket[i] = newTicket;  // Saves the object in first null object in array.
                         break;
                     }
                 }
-                newTicket.save();
+                newTicket.save();  // Creates ticket file
                 System.out.println("Seat  " + rowName + seat + " booked successfully.");
             }
             else {
-                System.out.println("Seat  " + rowName + seat + "  is not available.");
+                System.out.println("Sorry, seat  " + rowName + seat + "  is already booked.");
             }
         }
-        catch(ArrayIndexOutOfBoundsException e){
+        catch(ArrayIndexOutOfBoundsException e){  // Validates seat number using Index Error
             System.out.println("Invalid seat number");
         }
     }
 
+    /**
+     *
+     * @param row
+     * @param rowName
+     * @param seat
+     */
+
     public static void cancelTicket(int[] row,String rowName,int seat){
-        int seatIndex = seat - 1;
+        int seatIndex = seat - 1;  // Arrays's index is always one less than seat number
         try {
-            if (row[seatIndex] == 1) {
-                row[seatIndex] = 0;
+            if (row[seatIndex] == 1) {  // Checks whether the seat is booked
+                row[seatIndex] = 0; // Cancels seat
                 System.out.println("Seat  " + rowName + seat + "  canceled successfully.");
-                for (int i=0; i < ticket.length; i++ ) {
-                    if (ticket[i] != null){
+
+                for (int i=0; i < ticket.length; i++ ) {  //Loops through the array to search the seat
+                    if (ticket[i] != null){  // Checks and avoids null objects in the array
+
+                        // Finds the inputted seat using getters of ticket object
                         if ((ticket[i].getRow().equals(rowName))&&(ticket[i].getSeat() == seat)){
-                            ticket[i] = null;
+                            ticket[i] = null;  // Changes the value of that index to null
                             break;
                         }
                     }
@@ -102,17 +134,26 @@ public class PlaneManagement {
                 System.out.println("Seat  " + rowName + seat + " does not have any booking.");
             }
         }
-        catch(ArrayIndexOutOfBoundsException e){
+        catch(ArrayIndexOutOfBoundsException e){  // Validates seat number using Index Error
             System.out.println("Invalid seat number");
 
         }
     }
 
-    public static void buy_seat(int[] rowA, int[] rowB, int[] rowC, int[] rowD) {
-        String seatRow = getSeatRow();
-        int seatNumber = getSeatNumber();
+    /**
+     *
+     * @param rowA
+     * @param rowB
+     * @param rowC
+     * @param rowD
+     */
 
-        switch(seatRow.toUpperCase()){
+    public static void buy_seat(int[] rowA, int[] rowB, int[] rowC, int[] rowD) {
+        String seatRow = getSeatRow();  // Gets type validated seat Row
+        int seatNumber = getSeatNumber();  // Gets type validated seat Number
+
+        // Calls bookTicket function providing respective parameters.
+        switch(seatRow){
 
             case "A":
                 bookTicket(rowA,seatRow,seatNumber);
@@ -127,17 +168,25 @@ public class PlaneManagement {
                 bookTicket(rowD,seatRow,seatNumber);
                 break;
             default:
-                System.out.println("Invalid Seat Row");
+                System.out.println("Invalid Seat Row");  // Validates seat Row
                 break;             
 
         }
     }
 
+    /**
+     *
+     * @param rowA
+     * @param rowB
+     * @param rowC
+     * @param rowD
+     */
+
     public static void cancel_seat(int[] rowA, int[] rowB, int[] rowC, int[] rowD) {
         String seatRow = getSeatRow();
         int seatNumber = getSeatNumber();
 
-        switch(seatRow.toUpperCase()){
+        switch(seatRow){
 
             case "A":
                 cancelTicket(rowA,seatRow,seatNumber);
@@ -157,6 +206,10 @@ public class PlaneManagement {
 
         }
     }
+
+    /**
+     *
+     */
 
     public static void displayMenu() {
 
@@ -189,6 +242,14 @@ public class PlaneManagement {
         }
     }
 
+    /**
+     *
+     * @param rowA
+     * @param rowB
+     * @param rowC
+     * @param rowD
+     */
+
    public static void find_first_available(int[] rowA, int[] rowB, int[] rowC, int[] rowD){
         int[][] array = {rowA,rowB,rowC,rowD};
 
@@ -216,6 +277,14 @@ public class PlaneManagement {
         }
     }
 
+    /**
+     *
+     * @param rowA
+     * @param rowB
+     * @param rowC
+     * @param rowD
+     */
+
     public static void show_seating_plan(int[] rowA, int[] rowB, int[] rowC, int[] rowD){
         int[][] array = {rowA,rowB,rowC,rowD};
 
@@ -232,6 +301,10 @@ public class PlaneManagement {
         }
     }
 
+    /**
+     *
+     */
+
     public static void print_tickets_info(){
         for(int i=0; i<ticket.length;i++){
             if(ticket[i] != null){
@@ -243,6 +316,10 @@ public class PlaneManagement {
         }
         System.out.println("Total sales for the session is : " + totalSales);
     }
+
+    /**
+     *
+     */
 
     public static void search_ticket(){
         String seatRow = getSeatRow();
@@ -265,6 +342,7 @@ public class PlaneManagement {
             System.out.println("This seat is available");
         }
     }
+
 
     public static void main(String[] args){
         // Initializing seats
