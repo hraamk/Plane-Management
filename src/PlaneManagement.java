@@ -27,6 +27,7 @@ public class PlaneManagement {
         }
     }
 
+
     /**
      * Validates seat
      * This method will get seat number and validates its type
