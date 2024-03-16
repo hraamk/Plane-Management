@@ -343,8 +343,9 @@ public class PlaneManagement {
 
         boolean loopCompleted = true;  // Initializes boolean to check whether loop finished without breaking
 
-        for (int i=0; i < ticket.length; i++ ) {
-            if (ticket[i] != null){
+        for (int i=0; i < ticket.length; i++ ) {  // Iterates through array of objects
+            if (ticket[i] != null){  // Avoids null objects while searching
+                // Checks user inputted information with data from getters to find that ticket
                 if ((ticket[i].getRow().equals(seatRow))&&(ticket[i].getSeat() == seatNumber)){
                     ticket[i].printInfo();
                     System.out.println();
@@ -354,8 +355,8 @@ public class PlaneManagement {
             }
         }
 
-        if(loopCompleted){  // Checks whether the loop finished all iterations without breaking
-            System.out.println("This seat is available");
+        if(loopCompleted){  // Checks whether the loop finished all iterations without breaking.
+            System.out.println("This seat is available");  // Prints that seat doesn't have any bookings.
         }
     }
 
@@ -423,5 +424,4 @@ public class PlaneManagement {
             }
         }
     }
-
 }
