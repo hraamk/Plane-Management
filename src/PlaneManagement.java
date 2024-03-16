@@ -19,8 +19,8 @@ public class PlaneManagement {
             try {
                 System.out.println("Please input row letter :");  // Gets seat row input
                 return scanner.nextLine().toUpperCase();  // Returns seat Row in upper case
-
-            } catch (InputMismatchException e) { // Handles InputMismatch error thrown during input
+            }
+            catch (InputMismatchException e) { // Handles InputMismatch error thrown during input
                 scanner.next();
                 System.out.println("Please select a letter between A-D");
             }
@@ -42,14 +42,13 @@ public class PlaneManagement {
                 scanner.nextLine(); // Clears scanner
                 return seat;
 
-
             } catch (InputMismatchException e) {  // Handles InputMismatch error thrown during input
                 scanner.next();
                 System.out.println("Please select a valid seat number");
             }
         }
-
     }
+
 
     /**
      * Operates book ticket.
@@ -91,8 +90,8 @@ public class PlaneManagement {
                 // Creates a new ticket in Ticket class with inputted ticket details and person object.
                 Ticket newTicket = new Ticket(rowName,seat,price,newPerson);
                 for (int i=0; i < ticket.length; i++ ) {
-
-                    if (ticket[i] == null){  // Finds the first null object in array of objects
+                    // Finds the first null object in array of objects
+                    if (ticket[i] == null){
                         ticket[i] = newTicket;  // Saves the object in first null object in array.
                         break;
                     }
@@ -108,6 +107,7 @@ public class PlaneManagement {
             System.out.println("Invalid seat number");
         }
     }
+
 
     /**
      * Operates cancel ticket.
@@ -181,6 +181,7 @@ public class PlaneManagement {
         }
     }
 
+
     /**
      * Cancels seat
      * This function calls cancelTicket method providing relevant parameters when user gives an input to cancel a seat.
@@ -215,6 +216,7 @@ public class PlaneManagement {
 
         }
     }
+
 
     /**
      * Displays Menu
@@ -253,6 +255,7 @@ public class PlaneManagement {
         }
     }
 
+
     /**
      * Finds and prints the first available.
      * This function loops through arrays of all 4 rows and returns first available seat.
@@ -290,6 +293,7 @@ public class PlaneManagement {
         }
     }
 
+
     /**
      * Prints seating plan
      * This function will loop through arrays of all 4 rows and prints seating order.
@@ -314,6 +318,7 @@ public class PlaneManagement {
             System.out.println();  // Move to the next line after each row
         }
     }
+
 
     /**
      * Prints ticket information.
@@ -362,6 +367,7 @@ public class PlaneManagement {
 
 
     public static void main(String[] args){
+
         // Initializing seats
         int[] rowA = new int[14];
         int[] rowB = new int[12];
@@ -372,18 +378,20 @@ public class PlaneManagement {
 
         int userInput;
 
-        mainLoop:  // Naming outer loop as final
+        mainLoop:  // Naming outer loop as main loop
         while(true){
+
             // Displays menu
             displayMenu();
+
             while (true){
                 try{
                     System.out.println("\nPlease select an option :");
-                    userInput = scanner.nextInt();
-                    scanner.nextLine();
+                    userInput = scanner.nextInt(); // Gets input from user
+                    scanner.nextLine(); // Clears scanner
                     break;
                 }
-                catch (InputMismatchException e) {
+                catch (InputMismatchException e) {  // Handles error caused by entering wrong type of input
                     scanner.next();
                     System.out.println("Please enter a value between 0-6");
                 }
@@ -392,34 +400,34 @@ public class PlaneManagement {
             switch (userInput){
                 case 0:
                     scanner.close();
-                    break mainLoop;
+                    break mainLoop; // Exits program
 
                 case 1:
-                    buy_seat(rowA,rowB,rowC,rowD);
+                    buy_seat(rowA,rowB,rowC,rowD);  // Calls buy_seat to make a booking
                     break;
 
                 case 2:
-                    cancel_seat(rowA,rowB,rowC,rowD);
+                    cancel_seat(rowA,rowB,rowC,rowD);  // Calls cancel_seat to cancel a booking
                     break;
 
                 case 3:
-                    find_first_available(rowA,rowB,rowC,rowD);
+                    find_first_available(rowA,rowB,rowC,rowD); // Calls method to print first available seat
                     break;
 
                 case 4:
-                    show_seating_plan(rowA,rowB,rowC,rowD);
+                    show_seating_plan(rowA,rowB,rowC,rowD);  // Prints the seating plan
                     break;
 
                 case 5:
-                    print_tickets_info();
+                    print_tickets_info();  // Prints details of all tickets booked and sales information of this session.
                     break;
 
                 case 6:
-                    search_ticket();
+                    search_ticket();  // Searches for a particular ticket and prints its information.
                     break;
 
                 default:
-                    System.out.println("Invalid Input");
+                    System.out.println("Invalid Input");  // Validates invalid input for menu.
 
             }
         }

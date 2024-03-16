@@ -65,9 +65,9 @@ public class Ticket {
             FileWriter myWriter = new FileWriter(filename);
             myWriter.write(content);
             myWriter.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.println("An error occurred.");
         }
-
     }
 }
