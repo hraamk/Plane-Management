@@ -33,6 +33,7 @@ public class PlaneManagement {
      * This method will get seat number and validates its type
      * @return The seat number
      */
+
     public static int getSeatNumber(){
         while(true) {  // Loops until it gets a valid input
             try {
@@ -51,12 +52,14 @@ public class PlaneManagement {
     }
 
     /**
-     * Books Ticket
-     *This function will book the seat after getting inputs from buys_seat method.
+     * Operates book ticket.
+     * This methods will change array value from 0 to 1 and make it available.
+     * And gets buyer information and saves it into a array of objects as a ticket with ticket information.
      * @param row The array of the Row
      * @param rowName The name of the Row
      * @param seat  The seat number
      */
+
     public static void bookTicket(int[] row,String rowName, int seat){
         int seatIndex = seat - 1;  // Arrays's index is always one less than seat number
         try {
@@ -107,10 +110,12 @@ public class PlaneManagement {
     }
 
     /**
-     *
-     * @param row
-     * @param rowName
-     * @param seat
+     * Operates cancel ticket.
+     * This methods will change array value from 1 to 0 and make it available.
+     * And it will delete the ticket object from array of objects.
+     * @param row The array of the Row
+     * @param rowName The name of the Row
+     * @param seat  The seat number
      */
 
     public static void cancelTicket(int[] row,String rowName,int seat){
@@ -142,11 +147,12 @@ public class PlaneManagement {
     }
 
     /**
-     *
-     * @param rowA
-     * @param rowB
-     * @param rowC
-     * @param rowD
+     * Buys Seat
+     * This function calls bookTicket method providing relevant parameters when user gives an input to buy a seat.
+     * @param rowA  Array contains information of Row A
+     * @param rowB  Array contains information of Row B
+     * @param rowC  Array contains information of Row C
+     * @param rowD  Array contains information of Row D
      */
 
     public static void buy_seat(int[] rowA, int[] rowB, int[] rowC, int[] rowD) {
@@ -176,17 +182,19 @@ public class PlaneManagement {
     }
 
     /**
-     *
-     * @param rowA
-     * @param rowB
-     * @param rowC
-     * @param rowD
+     * Cancels seat
+     * This function calls cancelTicket method providing relevant parameters when user gives an input to cancel a seat.
+     * @param rowA  Array contains information of Row A
+     * @param rowB  Array contains information of Row B
+     * @param rowC  Array contains information of Row C
+     * @param rowD  Array contains information of Row D
      */
 
     public static void cancel_seat(int[] rowA, int[] rowB, int[] rowC, int[] rowD) {
         String seatRow = getSeatRow();
         int seatNumber = getSeatNumber();
 
+        // Calls cancelTicket function providing respective parameters.
         switch(seatRow){
 
             case "A":
@@ -202,18 +210,20 @@ public class PlaneManagement {
                 cancelTicket(rowD,seatRow,seatNumber);
                 break;
             default:
-                System.out.println("Invalid Seat Row");
+                System.out.println("Invalid Seat Row");  // Validates seat Row
                 break;
 
         }
     }
 
     /**
-     *
+     * Displays Menu
+     * This function prints the menu to user.
      */
 
     public static void displayMenu() {
 
+        //Prints stars
         for(int i = 0; i <50;i++){
             System.out.print("*");
         }
@@ -244,23 +254,25 @@ public class PlaneManagement {
     }
 
     /**
-     *
-     * @param rowA
-     * @param rowB
-     * @param rowC
-     * @param rowD
+     * Finds and prints the first available.
+     * This function loops through arrays of all 4 rows and returns first available seat.
+     * @param rowA  Array contains information of Row A
+     * @param rowB  Array contains information of Row B
+     * @param rowC  Array contains information of Row C
+     * @param rowD  Array contains information of Row D
      */
 
    public static void find_first_available(int[] rowA, int[] rowB, int[] rowC, int[] rowD){
         int[][] array = {rowA,rowB,rowC,rowD};
 
-        String rowName;
+        String rowName;  // Initialising rowName
 
-        rowLoop:
+        rowLoop: // Naming outer loop as rowLoop
         for (int[] ints : array) {
             for (int j = 0; j < ints.length; j++) {
-                if (ints[j] == 0) {
-                    if (Arrays.equals(ints, rowA)) {
+                // Finds available seat while looping through array.
+                if (ints[j] ==  0) {
+                    if (Arrays.equals(ints, rowA)) {  //  Checks which array is looping
                         rowName = "A";
                     } else if (Arrays.equals(ints, rowB)) {
                         rowName = "B";
@@ -279,11 +291,12 @@ public class PlaneManagement {
     }
 
     /**
-     *
-     * @param rowA
-     * @param rowB
-     * @param rowC
-     * @param rowD
+     * Prints seating plan
+     * This function will loop through arrays of all 4 rows and prints seating order.
+     * @param rowA  Array contains information of Row A
+     * @param rowB  Array contains information of Row B
+     * @param rowC  Array contains information of Row C
+     * @param rowD  Array contains information of Row D
      */
 
     public static void show_seating_plan(int[] rowA, int[] rowB, int[] rowC, int[] rowD){
@@ -303,7 +316,8 @@ public class PlaneManagement {
     }
 
     /**
-     *
+     * Prints ticket information.
+     * This function will access the array of objects which contents ticket information and prints information.
      */
 
     public static void print_tickets_info(){
@@ -319,14 +333,15 @@ public class PlaneManagement {
     }
 
     /**
-     *
+     * Searches for a specific ticket
+     * This function will search for a user inputted ticket and prints its details.
      */
 
     public static void search_ticket(){
-        String seatRow = getSeatRow();
-        int seatNumber = getSeatNumber();
+        String seatRow = getSeatRow();  // Gets seat row after validation
+        int seatNumber = getSeatNumber();  // Gets seat number after validation
 
-        boolean loopCompleted = true;
+        boolean loopCompleted = true;  // Initializes boolean to check whether loop finished without breaking
 
         for (int i=0; i < ticket.length; i++ ) {
             if (ticket[i] != null){
@@ -339,7 +354,7 @@ public class PlaneManagement {
             }
         }
 
-        if(loopCompleted){
+        if(loopCompleted){  // Checks whether the loop finished all iterations without breaking
             System.out.println("This seat is available");
         }
     }
@@ -352,11 +367,11 @@ public class PlaneManagement {
         int[] rowC = new int[12];
         int[] rowD = new int[14];
 
-        System.out.println("Welcome to the Plane Management Application");
+        System.out.println("Welcome to the Plane Management Application");  // Welcome note
 
         int userInput;
 
-        mainLoop:
+        mainLoop:  // Naming outer loop as final
         while(true){
             // Displays menu
             displayMenu();
@@ -375,6 +390,7 @@ public class PlaneManagement {
 
             switch (userInput){
                 case 0:
+                    scanner.close();
                     break mainLoop;
 
                 case 1:
@@ -407,4 +423,5 @@ public class PlaneManagement {
             }
         }
     }
+
 }
