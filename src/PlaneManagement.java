@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class PlaneManagement {
 
     private static final Ticket[] ticket = new Ticket[52];
-    private static int totalSales = 0;
+    //private static int totalSales;
     private static Scanner scanner = new Scanner(System.in);
 
     /**
@@ -328,11 +328,13 @@ public class PlaneManagement {
      */
 
     public static void print_tickets_info(){
+        int totalSales = 0;
         for(int i=0; i<ticket.length;i++){
             if(ticket[i] != null){
                 ticket[i].printInfo();
                 System.out.println();
 
+                totalSales =0;
                 totalSales = totalSales+ ticket[i].getPrice();
             }
         }
