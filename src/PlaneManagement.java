@@ -2,7 +2,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;  // Import the Scanner class
 import java.util.Arrays;
 
-
+/**
+ * This class performs a ticket booking of a commercial airline.
+ */
 public class PlaneManagement {
 
     private static final Ticket[] ticket = new Ticket[52];

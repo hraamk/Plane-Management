@@ -1,7 +1,11 @@
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * The Ticket class represents a ticket for an event, containing information about the seat, price, and the person associated with the ticket.
+ */
 public class Ticket {
+    // Instance variables to store the row, seat, price, and person associated with the ticket
     private String row;
     private int seat;
     private int price;
@@ -15,7 +19,7 @@ public class Ticket {
         this.person = person;
     }
 
-    // Getters and setters
+    // Getters and setters for row, seat, price, and person
     public String getRow() {
         return row;
     }
@@ -48,7 +52,7 @@ public class Ticket {
         this.person = person;
     }
 
-    // Method to print information
+    // Method to print information about the ticket and associated person
     public void printInfo() {
         System.out.println("Row: " + row);
         System.out.println("Seat: " + seat);
@@ -57,17 +61,17 @@ public class Ticket {
         person.printInformation();
     }
 
+    // Method to save ticket information to a file
     public void save() {
-        String filename = getRow()+getSeat()+".txt";
-        String content = "Ticket Information: \nRow: " + row + "\nSeat: "+ seat + "\nPrice: $" + price +
-                "\nPerson Information:" + "\nName: " + person.getName()+ "\nSurname: " + person.getSurname() + "\nEmail: " + person.getEmail();
+        String filename = getRow() + getSeat() + ".txt"; // Creating a filename based on row and seat number
+        String content = "Ticket Information: \nRow: " + row + "\nSeat: " + seat + "\nPrice: $" + price +
+                "\nPerson Information:" + "\nName: " + person.getName() + "\nSurname: " + person.getSurname() + "\nEmail: " + person.getEmail();
         try {
-            FileWriter myWriter = new FileWriter(filename);
-            myWriter.write(content);
-            myWriter.close();
-        }
-        catch (IOException e) {
-            System.out.println("An error occurred.");
+            FileWriter myWriter = new FileWriter(filename); // Creating a FileWriter object
+            myWriter.write(content); // Writing content to the file
+            myWriter.close(); // Closing the file
+        } catch (IOException e) { // Handling IOException
+            System.out.println("An error occurred."); // Printing error message
         }
     }
 }
