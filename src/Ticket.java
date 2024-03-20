@@ -7,13 +7,13 @@ import java.io.IOException;
  */
 public class Ticket {
     // Instance variables to store the row, seat, price, and person associated with the ticket
-    private String row;
+    private char row;
     private int seat;
     private int price;
     private Person person;
 
     // Constructor
-    public Ticket(String row, int seat, int price, Person person) {
+    public Ticket(char row, int seat, int price, Person person) {
         this.row = row;
         this.seat = seat;
         this.price = price;
@@ -21,11 +21,11 @@ public class Ticket {
     }
 
     // Getters and setters for row, seat, price, and person
-    public String getRow() {
+    public char getRow() {
         return row;
     }
 
-    public void setRow(String row) {
+    public void setRow(char row) {
         this.row = row;
     }
 
@@ -64,7 +64,9 @@ public class Ticket {
 
     // Method to save ticket information to a file
     public void save() {
-        String filename = getRow() + getSeat() + ".txt"; // Creating a filename based on row and seat number
+        String rowString = String.valueOf(getRow());
+        String filename = rowString + getSeat() + ".txt"; // Creating a filename based on row and seat number
+        //System.out.println(filename);
         String content = "Ticket Information: \nRow: " + row + "\nSeat: " + seat + "\nPrice: $" + price +
                 "\nPerson Information:" + "\nName: " + person.getName() + "\nSurname: " + person.getSurname() + "\nEmail: " + person.getEmail();
         try {
@@ -75,6 +77,8 @@ public class Ticket {
             System.out.println("An error occurred."); // Printing error message
         }
     }
+
+
 
     public void delete(){
         String filename = getRow() + getSeat() + ".txt";
