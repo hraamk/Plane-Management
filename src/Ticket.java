@@ -80,7 +80,7 @@ public class Ticket {
 
 
 
-    public void delete(){
+    public void deleteFile(){
         String filename = getRow() + getSeat() + ".txt";
         try {
             File ticketFile = new File(filename);

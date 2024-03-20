@@ -9,15 +9,14 @@ public class PlaneManagement {
     private static Scanner scanner = new Scanner(System.in);
 
     /**
-     * Validates row
-     * This method will get seat row and validates its type
-     * @return The seat row
+     * This function gets seat row as input from user and validates its type and value
+     * @return Validated seat row as char
      */
     public static char getSeatRow(){
         while(true) { // Loops until it gets a valid input
             try {
                 System.out.println("Please input row letter between A-D :");  // Gets seat row input
-                char row =  scanner.next().charAt(0);  // Returns seat Row in upper case
+                char row =  scanner.next().toUpperCase().charAt(0);// Returns seat in upper case
                 if(row=='A'||row == 'B' || row=='C'||row=='D'){
                     return row;
                 }
@@ -29,41 +28,46 @@ public class PlaneManagement {
         }
     }
 
-    public static int getSeatNumber(char row){
+    /**
+     * This function gets seatNumber as input from user and validates its type and value
+     * @param seatingPlan The array contains seating plan and information
+     * @param seatRow Validated seat row as char
+     * @return Validated seat number as integer
+     */
+
+    public static int getSeatNumber(int[][] seatingPlan,char seatRow){
+        int rowIndex = seatRow-'A';
         while(true) {  // Loops until it gets a valid input
             try {
                 System.out.println("Please input seat number :");
                 int seat = scanner.nextInt();  // Gets seat number input
                 scanner.nextLine(); // Clears scanner
-                if(row == 'A' || row == 'D'){
-                        if(0<seat && seat<15){
-                            return seat;
-                        }
-                        else{
-                            System.out.println("Please select a seat between 0-14");
-                        }
+                if(seat <= seatingPlan[rowIndex].length){
+                    return seat;
                 }
                 else{
-                    if(0<seat && seat<13){
-                        return seat;
-                    }
-                    else{
-                        System.out.println("Please select a seat between 0-12");
-                    }
+                    System.out.println("Please input a valid seat number");
                 }
 
             } catch (InputMismatchException e) {  // Handles InputMismatch error thrown during input
                 scanner.next();
-                System.out.println("Please select a valid seat number");
+                System.out.println("Please input a valid seat number");
+
             }
         }
     }
 
-    public static int price(int seat){
-        if(seat<6){  // Seat 1-5
+    /**
+     * This function returns price of the seat number entered
+     * @param seatNumber Validated seat number as integer
+     * @return Price of the relevant seat as int
+     */
+
+    public static int price(int seatNumber){
+        if(seatNumber<6){  // Seat 1-5
             return 200;
         }
-        else if(seat <10){  // Seat 6-9
+        else if(seatNumber <10){  // Seat 6-9
             return  150;
         }
         else{ // Seat 10-12/14
@@ -72,9 +76,14 @@ public class PlaneManagement {
 
     }
 
+    /**
+     * This function will book seat after getting validated seat row and seat number
+     * @param seatingPlan The array contains seating plan and information
+     */
+
     public static void buy_seat(int[][] seatingPlan) {
         char seatRow = getSeatRow();  // Gets type validated seat Row
-        int seatNumber = getSeatNumber(seatRow);  // Gets type validated seat Number
+        int seatNumber = getSeatNumber(seatingPlan,seatRow);  // Gets type validated seat Number
 
         int rowIndex = seatRow-'A';
 
@@ -112,10 +121,15 @@ public class PlaneManagement {
         }
     }
 
+    /**
+     * This function will cancel a booked seat after getting validated seat row and seat number
+     * @param seatingPlan The array contains seating plan and information
+     */
+
 
     public static void cancel_seat(int[][] seatingPlan) {
         char seatRow = getSeatRow();
-        int seatNumber = getSeatNumber(seatRow);
+        int seatNumber = getSeatNumber(seatingPlan,seatRow);
 
         int rowIndex = seatRow-'A';
 
@@ -129,7 +143,7 @@ public class PlaneManagement {
 
                     // Finds the inputted seat using getters of ticket object
                     if (ticket[i].getRow() == seatRow && ticket[i].getSeat() == seatNumber){
-                        ticket[i].delete(); // Deletes the ticket file
+                        ticket[i].deleteFile(); // Deletes the ticket file
                         ticket[i] = null;  // Changes the value of that index to null
                         break;
                     }
@@ -179,6 +193,11 @@ public class PlaneManagement {
         }
     }
 
+    /**
+     * This function will find and return the first available seat.
+     * @param seatingPlan The array contains seating plan and information
+     */
+
    public static void find_first_available(int[][] seatingPlan){
        char row = 'A';
 
@@ -195,6 +214,11 @@ public class PlaneManagement {
             row++;
         }
     }
+
+    /**
+     * This function will print the seating order and seat availability.
+     * @param seatingPlan The array contains seating plan and information
+     */
 
     public static void show_seating_plan(int[][] seatingPlan){
         for (int[] row : seatingPlan) {
@@ -235,9 +259,9 @@ public class PlaneManagement {
      * This function will search for a user inputted ticket and prints its details.
      */
 
-    public static void search_ticket(){
+    public static void search_ticket(int[][] seatingPlan){
         char seatRow = getSeatRow();  // Gets seat row after validation
-        int seatNumber = getSeatNumber(seatRow);  // Gets seat number after validation
+        int seatNumber = getSeatNumber(seatingPlan,seatRow);  // Gets seat number after validation
 
         boolean loopCompleted = true;  // Initializes boolean to check whether loop finished without breaking
 
@@ -317,7 +341,7 @@ public class PlaneManagement {
                     break;
 
                 case 6:
-                    search_ticket();  // Searches for a particular ticket and prints its information.
+                    search_ticket(seatingPlan);  // Searches for a particular ticket and prints its information.
                     break;
 
                 default:
