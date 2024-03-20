@@ -19,8 +19,11 @@ public class PlaneManagement {
     public static String getSeatRow(){
         while(true) { // Loops until it gets a valid input
             try {
-                System.out.println("Please input row letter :");  // Gets seat row input
-                return scanner.nextLine().toUpperCase();  // Returns seat Row in upper case
+                System.out.println("Please input row letter between A-D :");  // Gets seat row input
+                String row =  scanner.nextLine().toUpperCase();  // Returns seat Row in upper case
+                if(row.equalsIgnoreCase("A")||row.equalsIgnoreCase("B")||row.equalsIgnoreCase("C")||row.equalsIgnoreCase("D")){
+                    return row;
+                }
             }
             catch (InputMismatchException e) { // Handles InputMismatch error thrown during input
                 scanner.next();
@@ -36,19 +39,47 @@ public class PlaneManagement {
      * @return The seat number
      */
 
-    public static int getSeatNumber(){
+    public static int getSeatNumber(String row){
         while(true) {  // Loops until it gets a valid input
             try {
                 System.out.println("Please input seat number :");
                 int seat = scanner.nextInt();  // Gets seat number input
                 scanner.nextLine(); // Clears scanner
-                return seat;
+                if(row.equalsIgnoreCase("A")||row.equalsIgnoreCase("D")){
+                        if(0<seat && seat<15){
+                            return seat;
+                        }
+                        else{
+                            System.out.println("Please select a seat between 0-14");
+                        }
+                }
+                else{
+                    if(0<seat && seat<13){
+                        return seat;
+                    }
+                    else{
+                        System.out.println("Please select a seat between 0-12");
+                    }
+                }
 
             } catch (InputMismatchException e) {  // Handles InputMismatch error thrown during input
                 scanner.next();
                 System.out.println("Please select a valid seat number");
             }
         }
+    }
+
+    public static int price(int seat){
+        if(seat<6){  // Seat 1-5
+            return 200;
+        }
+        else if(seat <10){  // Seat 6-9
+            return  150;
+        }
+        else{ // Seat 10-12/14
+            return 180;
+        }
+
     }
 
 
@@ -63,7 +94,6 @@ public class PlaneManagement {
 
     public static void bookTicket(int[] row,String rowName, int seat){
         int seatIndex = seat - 1;  // Arrays's index is always one less than seat number
-        try {
             if (row[seatIndex] == 0) {  // Checks whether the seat is available
                 row[seatIndex] = 1;  // Books seat
 
@@ -78,16 +108,7 @@ public class PlaneManagement {
                 Person newPerson = new Person(name,surname,email);
 
                 // Setting price for each ticket categories
-                int price;
-                if(seat<6){  // Seat 1-5
-                    price = 200;
-                }
-                else if(seat <10){  // Seat 6-9
-                    price = 150;
-                }
-                else{ // Seat 10-12/14
-                    price = 180;
-                }
+                int price=price(seat);
 
                 // Creates a new ticket in Ticket class with inputted ticket details and person object.
                 Ticket newTicket = new Ticket(rowName,seat,price,newPerson);
@@ -104,10 +125,6 @@ public class PlaneManagement {
             else {
                 System.out.println("Sorry, seat  " + rowName + seat + "  is already booked.");
             }
-        }
-        catch(ArrayIndexOutOfBoundsException e){  // Validates seat number using Index Error
-            System.out.println("Invalid seat number");
-        }
     }
 
 
@@ -122,7 +139,6 @@ public class PlaneManagement {
 
     public static void cancelTicket(int[] row,String rowName,int seat){
         int seatIndex = seat - 1;  // Arrays's index is always one less than seat number
-        try {
             if (row[seatIndex] == 1) {  // Checks whether the seat is booked
                 row[seatIndex] = 0; // Cancels seat
                 System.out.println("Seat  " + rowName + seat + "  canceled successfully.");
@@ -141,11 +157,6 @@ public class PlaneManagement {
             else {
                 System.out.println("Seat  " + rowName + seat + " does not have any booking.");
             }
-        }
-        catch(ArrayIndexOutOfBoundsException e){  // Validates seat number using Index Error
-            System.out.println("Invalid seat number");
-
-        }
     }
 
     /**
@@ -159,7 +170,9 @@ public class PlaneManagement {
 
     public static void buy_seat(int[] rowA, int[] rowB, int[] rowC, int[] rowD) {
         String seatRow = getSeatRow();  // Gets type validated seat Row
-        int seatNumber = getSeatNumber();  // Gets type validated seat Number
+        int seatNumber = getSeatNumber(seatRow);  // Gets type validated seat Number
+
+        //bookTicket(rowName+getSeatRow());
 
         // Calls bookTicket function providing respective parameters.
         switch(seatRow){
@@ -176,11 +189,8 @@ public class PlaneManagement {
             case "D":
                 bookTicket(rowD,seatRow,seatNumber);
                 break;
-            default:
-                System.out.println("Invalid Seat Row");  // Validates seat Row
-                break;             
 
-        }
+                }
     }
 
 
@@ -195,7 +205,7 @@ public class PlaneManagement {
 
     public static void cancel_seat(int[] rowA, int[] rowB, int[] rowC, int[] rowD) {
         String seatRow = getSeatRow();
-        int seatNumber = getSeatNumber();
+        int seatNumber = getSeatNumber(seatRow);
 
         // Calls cancelTicket function providing respective parameters.
         switch(seatRow){
@@ -211,9 +221,6 @@ public class PlaneManagement {
                 break;
             case "D":
                 cancelTicket(rowD,seatRow,seatNumber);
-                break;
-            default:
-                System.out.println("Invalid Seat Row");  // Validates seat Row
                 break;
 
         }
@@ -348,7 +355,7 @@ public class PlaneManagement {
 
     public static void search_ticket(){
         String seatRow = getSeatRow();  // Gets seat row after validation
-        int seatNumber = getSeatNumber();  // Gets seat number after validation
+        int seatNumber = getSeatNumber(seatRow);  // Gets seat number after validation
 
         boolean loopCompleted = true;  // Initializes boolean to check whether loop finished without breaking
 
