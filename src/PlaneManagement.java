@@ -6,7 +6,6 @@ import java.util.Arrays;
  * This class performs a ticket booking of a commercial airline.
  */
 public class PlaneManagement {
-
     private static final Ticket[] ticket = new Ticket[52];
     //private static int totalSales;
     private static Scanner scanner = new Scanner(System.in);
@@ -148,6 +147,7 @@ public class PlaneManagement {
 
                         // Finds the inputted seat using getters of ticket object
                         if ((ticket[i].getRow().equals(rowName))&&(ticket[i].getSeat() == seat)){
+                            ticket[i].delete(); // Deletes the ticket file
                             ticket[i] = null;  // Changes the value of that index to null
                             break;
                         }
@@ -171,6 +171,8 @@ public class PlaneManagement {
     public static void buy_seat(int[] rowA, int[] rowB, int[] rowC, int[] rowD) {
         String seatRow = getSeatRow();  // Gets type validated seat Row
         int seatNumber = getSeatNumber(seatRow);  // Gets type validated seat Number
+
+        int[][] array = {rowA,rowB,rowC,rowD};
 
         //bookTicket(rowName+getSeatRow());
 
@@ -275,30 +277,21 @@ public class PlaneManagement {
      */
 
    public static void find_first_available(int[] rowA, int[] rowB, int[] rowC, int[] rowD){
-        int[][] array = {rowA,rowB,rowC,rowD};
+       int[][] array = {rowA,rowB,rowC,rowD};
 
-        String rowName;  // Initialising rowName
+       char row = 'A';
 
         rowLoop: // Naming outer loop as rowLoop
         for (int[] ints : array) {
             for (int j = 0; j < ints.length; j++) {
                 // Finds available seat while looping through array.
                 if (ints[j] ==  0) {
-                    if (Arrays.equals(ints, rowA)) {  //  Checks which array is looping
-                        rowName = "A";
-                    } else if (Arrays.equals(ints, rowB)) {
-                        rowName = "B";
-                    } else if (Arrays.equals(ints, rowC)) {
-                        rowName = "C";
-                    } else {
-                        rowName = "D";
-                    }
                     int seatName = j + 1;  // Seat number is the column index + 1
-                    System.out.println("First available seat is : " + rowName + seatName);
+                    System.out.println("First available seat is : " + row + seatName);
                     break rowLoop;
-
                 }
             }
+            row++;
         }
     }
 
@@ -336,13 +329,13 @@ public class PlaneManagement {
 
     public static void print_tickets_info(){
         int totalSales = 0;
-        for(int i=0; i<ticket.length;i++){
-            if(ticket[i] != null){
-                ticket[i].printInfo();
+        for (Ticket value : ticket) {
+            if (value != null) {
+                value.printInfo();
                 System.out.println();
 
-                totalSales =0;
-                totalSales = totalSales+ ticket[i].getPrice();
+                totalSales = 0;
+                totalSales = totalSales + value.getPrice();
             }
         }
         System.out.println("Total sales for the session is : " + totalSales);

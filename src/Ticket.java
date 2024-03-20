@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -74,4 +75,17 @@ public class Ticket {
             System.out.println("An error occurred."); // Printing error message
         }
     }
+
+    public void delete(){
+        String filename = getRow() + getSeat() + ".txt";
+        try {
+            File ticketFile = new File(filename);
+            ticketFile.delete();
+
+        } catch (Exception e) { // Handling IOException
+            System.out.println("An error occurred."); // Printing error message
+        }
+
+    }
+
 }
