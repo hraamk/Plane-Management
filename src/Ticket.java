@@ -81,7 +81,8 @@ public class Ticket {
 
 
     public void deleteFile(){
-        String filename = getRow() + getSeat() + ".txt";
+        String rowString = String.valueOf(getRow());
+        String filename = rowString + getSeat() + ".txt"; // Creating a filename based on row and seat number
         try {
             File ticketFile = new File(filename);
             ticketFile.delete();

@@ -14,16 +14,11 @@ public class PlaneManagement {
      */
     public static char getSeatRow(){
         while(true) { // Loops until it gets a valid input
-            try {
-                System.out.println("Please input row letter between A-D :");  // Gets seat row input
-                char row =  scanner.next().toUpperCase().charAt(0);// Returns seat in upper case
-                if(row=='A'||row == 'B' || row=='C'||row=='D'){
-                    return row;
-                }
-            }
-            catch (InputMismatchException e) { // Handles InputMismatch error thrown during input
-                scanner.next();
-                System.out.println("Please select a letter between A-D");
+            System.out.println("Please input a row letter between A-D :");  // Gets seat row input
+            char row =  scanner.next().toUpperCase().charAt(0);// Returns seat in upper case
+            if(row=='A'||row == 'B' || row=='C'||row=='D'){
+                return row;
+
             }
         }
     }
@@ -46,12 +41,12 @@ public class PlaneManagement {
                     return seat;
                 }
                 else{
-                    System.out.println("Please input a valid seat number");
+                    System.out.println("Please input a valid seat number.");
                 }
 
             } catch (InputMismatchException e) {  // Handles InputMismatch error thrown during input
                 scanner.next();
-                System.out.println("Please input a valid seat number");
+                System.out.println("Please input a valid seat number.");
 
             }
         }
@@ -82,13 +77,14 @@ public class PlaneManagement {
      */
 
     public static void buy_seat(int[][] seatingPlan) {
-        char seatRow = getSeatRow();  // Gets type validated seat Row
-        int seatNumber = getSeatNumber(seatingPlan,seatRow);  // Gets type validated seat Number
+        char seatRow = getSeatRow();  // Gets validated seat Row
+        int seatNumber = getSeatNumber(seatingPlan,seatRow);  // Gets validated seat Number
 
         int rowIndex = seatRow-'A';
+        int seatIndex = seatNumber - 1;  // Array's index is always one less than seat number
 
-        int seatIndex = seatNumber - 1;  // Arrays's index is always one less than seat number
         if (seatingPlan[rowIndex][seatIndex] == 0) {  // Checks whether the seat is available
+
             seatingPlan[rowIndex][seatIndex] = 1;  // Books seat
 
             System.out.println("Enter Buyer Name :");
@@ -114,7 +110,7 @@ public class PlaneManagement {
                 }
             }
             newTicket.save();  // Creates ticket file
-            System.out.println("Seat  " + seatRow + seatNumber + " booked successfully.");
+            System.out.println("Seat  " + seatRow + seatNumber + " is booked successfully.");
         }
         else {
             System.out.println("Sorry, seat  " + seatRow + seatNumber + "  is already booked.");
@@ -133,10 +129,10 @@ public class PlaneManagement {
 
         int rowIndex = seatRow-'A';
 
-        int seatIndex = seatNumber - 1;  // Arrays's index is always one less than seat number
+        int seatIndex = seatNumber - 1;  // Array's index is always one less than seat number
         if (seatingPlan[rowIndex][seatIndex] == 1) {  // Checks whether the seat is booked
             seatingPlan[rowIndex][seatIndex] = 0; // Cancels seat
-            System.out.println("Seat  " + seatRow + seatNumber + "  canceled successfully.");
+            System.out.println("Seat  " + seatRow + seatNumber + " is cancelled successfully.");
 
             for (int i=0; i < ticket.length; i++ ) {  //Loops through the array to search the seat
                 if (ticket[i] != null){  // Checks and avoids null objects in the array
@@ -221,13 +217,17 @@ public class PlaneManagement {
      */
 
     public static void show_seating_plan(int[][] seatingPlan){
-        for (int[] row : seatingPlan) {
-            for (int seat : row) {
+        System.out.println();
+        for (int i = 0; i < seatingPlan.length; i++) {
+            if(i == 2){
+                System.out.println();
+            }
+            for (int seat : seatingPlan[i]) {
                 if (seat == 0) {
-                    System.out.print("O ");
+                    System.out.print("O  ");
                 }
                 else {
-                    System.out.print("X ");
+                    System.out.print("X  ");
                 }
             }
             System.out.println();  // Move to the next line after each row
@@ -276,10 +276,14 @@ public class PlaneManagement {
                 }
             }
         }
-
         if(loopCompleted){  // Checks whether the loop finished all iterations without breaking.
             System.out.println("This seat is available");  // Prints that seat doesn't have any bookings.
         }
+    }
+
+    public static void pressEnterToContinue() {
+        System.out.println("\nPress Enter to go to main menu");
+        scanner.nextLine(); // Waits for the user to press Enter
     }
 
     public static void main(String[] args){
@@ -321,31 +325,38 @@ public class PlaneManagement {
                     break mainLoop; // Exits program
 
                 case 1:
-                    buy_seat(seatingPlan);  // Calls buy_seat to make a booking
+                    buy_seat(seatingPlan);// Calls buy_seat to make a booking
+                    pressEnterToContinue();
                     break;
 
                 case 2:
                     cancel_seat(seatingPlan);  // Calls cancel_seat to cancel a booking
+                    pressEnterToContinue();
                     break;
 
                 case 3:
                     find_first_available(seatingPlan); // Calls method to print first available seat
+                    pressEnterToContinue();
                     break;
 
                 case 4:
                     show_seating_plan(seatingPlan);  // Prints the seating plan
+                    pressEnterToContinue();
                     break;
 
                 case 5:
                     print_tickets_info();  // Prints details of all tickets booked and sales information of this session.
+                    pressEnterToContinue();
                     break;
 
                 case 6:
                     search_ticket(seatingPlan);  // Searches for a particular ticket and prints its information.
+                    pressEnterToContinue();
                     break;
 
                 default:
-                    System.out.println("Invalid Input");  // Validates invalid input for menu.
+                    System.out.println("Invalid Input\nSelect an option between 0-6");  // Validates invalid input for menu.
+                    System.out.println();
 
             }
         }
