@@ -5,7 +5,10 @@ import java.util.Scanner;  // Import the Scanner class
  * This class performs a ticket booking of a commercial airline.
  */
 public class PlaneManagement {
+    //Initializing array of objects
     private static final Ticket[] ticket = new Ticket[52];
+
+    //Initializing scanner
     private static Scanner scanner = new Scanner(System.in);
 
     /**
@@ -16,9 +19,8 @@ public class PlaneManagement {
         while(true) { // Loops until it gets a valid input
             System.out.println("Please input a row letter between A-D :");  // Gets seat row input
             char row =  scanner.next().toUpperCase().charAt(0);// Returns seat in upper case
-            if(row=='A'||row == 'B' || row=='C'||row=='D'){
+            if(row>='A' && row <= 'D'){
                 return row;
-
             }
         }
     }
@@ -277,7 +279,7 @@ public class PlaneManagement {
             }
         }
         if(loopCompleted){  // Checks whether the loop finished all iterations without breaking.
-            System.out.println("This seat is available");  // Prints that seat doesn't have any bookings.
+            System.out.println("This seat is available.");  // Prints that seat doesn't have any bookings.
         }
     }
 
@@ -302,7 +304,6 @@ public class PlaneManagement {
 
         mainLoop:  // Naming outer loop as main loop
         while(true){
-
             // Displays menu
             displayMenu();
 
@@ -315,7 +316,7 @@ public class PlaneManagement {
                 }
                 catch (InputMismatchException e) {  // Handles error caused by entering wrong type of input
                     scanner.next();
-                    System.out.println("Please enter a value between 0-6");
+                    System.out.println("Please enter a value between 0-6.");
                 }
             }
 

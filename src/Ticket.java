@@ -12,7 +12,13 @@ public class Ticket {
     private int price;
     private Person person;
 
-    // Constructor
+    /**
+     * Constructs a Ticket object with the specified row, seat, price, and associated person.
+     * @param row    the row of the ticket
+     * @param seat   the seat number of the ticket
+     * @param price  the price of the ticket
+     * @param person the person associated with the ticket
+     */
     public Ticket(char row, int seat, int price, Person person) {
         this.row = row;
         this.seat = seat;
@@ -21,39 +27,75 @@ public class Ticket {
     }
 
     // Getters and setters for row, seat, price, and person
+
+    /**
+     * Returns the row of the ticket.
+     * @return the row of the ticket
+     */
     public char getRow() {
         return row;
     }
 
+    /**
+     * Sets the row of the ticket.
+     * @param row the row of the ticket
+     */
     public void setRow(char row) {
         this.row = row;
     }
 
+    /**
+     * Returns the seat number of the ticket.
+     * @return the seat number of the ticket
+     */
     public int getSeat() {
         return seat;
     }
 
+    /**
+     * Sets the seat number of the ticket.
+     * @param seat the seat number of the ticket
+     */
     public void setSeat(int seat) {
         this.seat = seat;
     }
 
+    /**
+     * Returns the price of the ticket.
+     * @return the price of the ticket
+     */
     public int getPrice() {
         return price;
     }
 
+    /**
+     * Sets the price of the ticket.
+     * @param price the price of the ticket
+     */
     public void setPrice(int price) {
         this.price = price;
     }
 
+    /**
+     * Returns the person associated with the ticket.
+     * @return the person associated with the ticket
+     */
     public Person getPerson() {
         return person;
     }
 
+    /**
+     * Sets the person associated with the ticket.
+     * @param person the person associated with the ticket
+     */
     public void setPerson(Person person) {
         this.person = person;
     }
 
-    // Method to print information about the ticket and associated person
+
+    /**
+     * Prints information about the ticket and associated person.
+     */
     public void printInfo() {
         System.out.println("Row: " + row);
         System.out.println("Seat: " + seat);
@@ -62,7 +104,9 @@ public class Ticket {
         person.printInformation();
     }
 
-    // Method to save ticket information to a file
+    /**
+     * Saves ticket information to a file.
+     */
     public void save() {
         String rowString = String.valueOf(getRow());
         String filename = rowString + getSeat() + ".txt"; // Creating a filename based on row and seat number
@@ -78,19 +122,19 @@ public class Ticket {
         }
     }
 
-
-
-    public void deleteFile(){
+    /**
+     * Deletes the file associated with the ticket.
+     */
+    public void deleteFile() {
         String rowString = String.valueOf(getRow());
         String filename = rowString + getSeat() + ".txt"; // Creating a filename based on row and seat number
         try {
             File ticketFile = new File(filename);
-            ticketFile.delete();
+            ticketFile.delete(); // Deletes file
 
         } catch (Exception e) { // Handling IOException
             System.out.println("An error occurred."); // Printing error message
         }
 
     }
-
 }
