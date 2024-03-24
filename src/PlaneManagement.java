@@ -124,7 +124,6 @@ public class PlaneManagement {
      * @param seatingPlan The array contains seating plan and information
      */
 
-
     public static void cancel_seat(int[][] seatingPlan) {
         char seatRow = getSeatRow();
         int seatNumber = getSeatNumber(seatingPlan,seatRow);
