@@ -248,7 +248,6 @@ public class PlaneManagement {
                 value.printInfo();
                 System.out.println();
 
-                totalSales = 0;
                 totalSales = totalSales + value.getPrice();
             }
         }
